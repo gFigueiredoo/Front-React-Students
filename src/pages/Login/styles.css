@@ -1,12 +1,19 @@
+
+
 .login-container {
     width: 100%;
     max-width: 900px;
     height: 90vh;
     margin: 0 auto;
-
+    
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+}
+
+.login-container h1{
+    color: #013435;
+    text-align: center;
 }
 
 .login-container section.form {
