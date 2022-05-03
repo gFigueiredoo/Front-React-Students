@@ -10,7 +10,7 @@ export default function Students(){
             <header>
                 <img src = {logoRegister} alt="Register" />
                 <span>Welcome, <strong>Student</strong>!</span>
-                <Link className="button" to="student/mew">New Student</Link>
+                <Link className="button" to="student/new/0">New Student</Link>
                 <button type="button">
                     <FiXCircle size={35} color="#17202A"/>
                 </button>
