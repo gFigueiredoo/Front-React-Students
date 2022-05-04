@@ -66,6 +66,17 @@ export default function Students(){
         }
     }
 
+    async function deleteStudent(id){
+        try{
+            if (window.confirm('Do you want remove the student with id = ' + id + ' ?')){
+                await api.delete(`api/students/${id}`, authorization);
+                setStudents(students.filter(student => student.id !== id));
+            }
+        }catch(error){
+            alert('Não foi possível excluir o aluno');
+        }
+    }
+
     return(
         <div className="student-container">
             <header>
@@ -91,7 +102,7 @@ export default function Students(){
                         <b>Email:</b> {student.email} <br/><br/>
                         <b>Age:</b> {student.age} <br/><br/>
 
-                        <button type="button">
+                        <button type="button" onClick={() => deleteStudent(student.id)}>
                             <FiUserX size="25" color="#17202A"/>
                         </button>
 
@@ -109,7 +120,7 @@ export default function Students(){
                         <b>Email:</b> {student.email} <br/><br/>
                         <b>Age:</b> {student.age} <br/><br/>
 
-                        <button type="button">
+                        <button type="button" onClick={() => deleteStudent(student.id)}>
                             <FiUserX size="25" color="#17202A"/>
                         </button>
 
