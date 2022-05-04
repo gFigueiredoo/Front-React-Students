@@ -8,11 +8,15 @@ import { useHistory } from 'react-router-dom';
 
 export default function Students(){
 
-    const [name, setName] = useState('');
+    const [searchInput, setSearchInput] = useState('');
+    const [filter, setFilter] = useState([]);
+
     const [students, setStudents] = useState([]);
 
     const email = localStorage.getItem('email');
     const token = localStorage.getItem('token');
+
+    const history = useHistory();
 
     const authorization = {
         headers : {
@@ -20,7 +24,20 @@ export default function Students(){
         }
     }
 
-    const history = useHistory();
+    const searchStudents = (searchValue) =>{
+        setSearchInput(searchValue);
+
+        if (searchInput !== ''){
+            const filteredDates = students.filter((item) =>{
+                return Object.values(item).join('').toLowerCase()
+                .includes(searchInput.toLowerCase())
+            });
+            setFilter(filteredDates);
+        }
+        else{
+            setFilter(students);
+        }
+    }
 
     useEffect( ()=> {
         api.get('api/student', authorization).then(
@@ -60,12 +77,31 @@ export default function Students(){
                 </button>
             </header>
             <form>
-                <input type='text' placeholder="Name"/>
-                <button type="button" class='button'>
-                    Filter student for name (parcial)
-                </button>
+                <input type='text' 
+                    placeholder="Filter for name..."
+                    onChange={(e) => searchStudents(e.target.value)}
+                />
             </form>
-            <h1>Students Relationship</h1>
+            <h1>Students</h1>
+            {searchInput.length > 1 ? (
+                <ul>
+                {filter.map(student => (
+                    <li key={student.id}>
+                        <b>Name:</b> {student.name} <br/><br/>
+                        <b>Email:</b> {student.email} <br/><br/>
+                        <b>Age:</b> {student.age} <br/><br/>
+
+                        <button type="button">
+                            <FiUserX size="25" color="#17202A"/>
+                        </button>
+
+                        <button onClick={()=> editStudent(student.id)} type="button">
+                            <FiEdit size="25" color="#17202A"/>
+                        </button>
+                    </li>
+                ))}     
+            </ul>
+            ) : (
             <ul>
                 {students.map(student => (
                     <li key={student.id}>
@@ -81,8 +117,9 @@ export default function Students(){
                             <FiEdit size="25" color="#17202A"/>
                         </button>
                     </li>
-                ))}      
+                ))}
             </ul>
+            )}
         </div>
-    )
+    );
 }
