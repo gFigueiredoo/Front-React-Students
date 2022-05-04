@@ -41,6 +41,14 @@ export default function Students(){
         }
     }
 
+    async function editStudent(id){
+        try{
+            history.push(`student/new/${id}`);
+        }catch(error){
+            alert('NAO FOI POSSIVEL EDITAR O ALUNO')
+        }
+    }
+
     return(
         <div className="student-container">
             <header>
@@ -69,7 +77,7 @@ export default function Students(){
                             <FiUserX size="25" color="#17202A"/>
                         </button>
 
-                        <button type="button">
+                        <button onClick={()=> editStudent(student.id)} type="button">
                             <FiEdit size="25" color="#17202A"/>
                         </button>
                     </li>
